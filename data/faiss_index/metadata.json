@@ -1,0 +1,1 @@
+[{"text": "The AI Knowledge Assistant is a RAG-based API that helps users find information in their documents. It uses FastAPI for the backend, OpenAI for embeddings and LLM responses, and FAISS for vector storage.\n", "metadata": {"filename": "about_assistant.txt", "start_char": 0, "end_char": 500}}]

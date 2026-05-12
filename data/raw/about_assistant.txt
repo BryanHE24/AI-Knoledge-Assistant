@@ -1,0 +1,1 @@
+The AI Knowledge Assistant is a RAG-based API that helps users find information in their documents. It uses FastAPI for the backend, OpenAI for embeddings and LLM responses, and FAISS for vector storage.

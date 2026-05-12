@@ -29,3 +29,29 @@ class QueryPipeline:
 
         # return the results
         return results
+
+def run_query(query: str) -> str:
+    """
+    Run a query through the RAG pipeline.
+    """
+    import os
+    # Default index path
+    index_path = os.path.join(os.getcwd(), "data", "faiss_index")
+    
+    # Check if index exists
+    if not os.path.exists(index_path):
+        return "I'm sorry, but I don't have access to my knowledge base yet. Please ensure the index is created."
+
+    try:
+        pipeline = QueryPipeline(index_path)
+        results = pipeline.search(query)
+        
+        if not results:
+            return "I couldn't find any relevant information for your question."
+            
+        # For now, return the best matching chunk
+        # In a full RAG system, this would be passed to an LLM
+        return results[0]["chunk"]["text"]
+        
+    except Exception as e:
+        return f"An error occurred while processing your query: {str(e)}"
