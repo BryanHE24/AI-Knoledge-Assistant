@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from app.api.routes.health import router as health_router
 from app.api.routes.query import router as query_router
+from app.api.exception_handlers import knowledge_base_exception_handler
+from app.core.exceptions import KnowledgeBaseUnavailable
 
 # Create the FastAPI application
 app = FastAPI(
@@ -11,3 +13,8 @@ app = FastAPI(
 # API routes  
 app.include_router(health_router) # Include the health check router
 app.include_router(query_router) # Include the query router
+
+# Exception handlers
+app.add_exception_handler(
+    KnowledgeBaseUnavailable, knowledge_base_exception_handler  
+)
