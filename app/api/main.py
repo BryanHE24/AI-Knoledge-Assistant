@@ -10,9 +10,18 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# API routes  
-app.include_router(health_router) # Include the health check router
-app.include_router(query_router) # Include the query router
+# API routes
+# Include the health check router
+app.include_router(
+    health_router,
+    prefix="/api/v1"
+)
+
+# Include the query router
+app.include_router(
+    query_router,
+    prefix="/api/v1"
+)
 
 # Exception handlers
 app.add_exception_handler(
