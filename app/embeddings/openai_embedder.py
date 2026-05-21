@@ -1,16 +1,16 @@
 from typing import List
 from openai import OpenAI
-from app.core.config import OPENAI_API_KEY, OPENAI_BASE_URL
+from app.core.config import settings
 
 # OpenAI embedder class
 class OpenAIEmbedder:
     # initialize the OpenAI embedder
-    def __init__(self, model: str = "text-embedding-3-small"):
+    def __init__(self, model: str = None):
         self.client = OpenAI(
-            api_key=OPENAI_API_KEY,
-            base_url=OPENAI_BASE_URL
+            api_key=settings.openrouter_api_key,
+            base_url=settings.openrouter_base_url
         )
-        self.model = model
+        self.model = model or settings.openrouter_model
 
     # embed texts using batching
     def embed_texts(self, texts: List[str], batch_size: int = 20) -> List[List[float]]:

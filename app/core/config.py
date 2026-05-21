@@ -1,19 +1,34 @@
-import os
 from dotenv import load_dotenv
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# load environment variables from .env file
+# Load environment variables from .env file
 load_dotenv()
 
-# get environment variable by name
-def get_env_variable(name: str) -> str:
-    value = os.getenv(name)
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
 
-    # raise error if environment variable is not set
-    if not value:
-        raise ValueError(f"Missing required environment variable: {name}")
+    openrouter_api_key: str = Field(..., alias="OPENROUTER_API_KEY")
+    openrouter_base_url: str = Field("https://openrouter.ai/api/v1", alias="OPENROUTER_BASE_URL")
+    openrouter_model: str = Field("text-embedding-3-small", alias="OPENROUTER_MODEL")
 
-    return value
+    @field_validator("openrouter_model")
+    @classmethod
+    def validate_model(cls, v: str) -> str:
+        allowed_models = {
+            "text-embedding-3-small",
+            "text-embedding-3-large",
+            "text-embedding-ada-002",
+        }
+        if v not in allowed_models:
+            raise ValueError(
+                f"Invalid model: '{v}'. Must be one of: {sorted(allowed_models)}"
+            )
+        return v
 
-# OpenAI API key and base URL
-OPENAI_API_KEY = get_env_variable("OPENAI_API_KEY")
-OPENAI_BASE_URL = get_env_variable("OPENAI_BASE_URL")
+# Instantiate settings immediately to trigger validation on startup
+settings = Settings()
