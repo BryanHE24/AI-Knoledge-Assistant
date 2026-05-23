@@ -15,5 +15,5 @@ def get_env_variable(name: str) -> str:
     return value
 
 # OpenAI API key and base URL
-OPENAI_API_KEY = get_env_variable("OPENAI_API_KEY")
-OPENAI_BASE_URL = get_env_variable("OPENAI_BASE_URL")
+OPENAI_API_KEY = get_env_variable("OPENROUTER_API_KEY")
+OPENAI_BASE_URL = get_env_variable("OPENROUTER_BASE_URL")
