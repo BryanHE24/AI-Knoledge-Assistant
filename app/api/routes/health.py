@@ -1,8 +1,20 @@
+from pathlib import Path
 from fastapi import APIRouter
-from app.schemas.health import HealthResponse # Import the health response schema
-router = APIRouter() # Create a router for the health check endpoint
+from app.core.config import settings
 
-# Health check endpoint
-@router.get("/health", response_model=HealthResponse)  
-def health_check():
-    return HealthResponse(status="ok") # Return the status of the API
+router = APIRouter()
+
+
+@router.get("/health")
+def health():
+    vectorstore_exists = Path("data/vectorstore").exists()
+
+    return {
+        "status": "ok" if vectorstore_exists else "degraded",
+        "config": "loaded" if settings.OPENROUTER_API_KEY else "missing",
+        "vectorstore": (
+            "available"
+            if vectorstore_exists
+            else "missing"
+        )
+    }
