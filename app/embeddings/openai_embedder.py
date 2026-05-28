@@ -7,17 +7,10 @@ class OpenAIEmbedder:
     # initialize the OpenAI embedder
     def __init__(self, model: str = None):
         self.client = OpenAI(
-<<<<<<< HEAD
-            api_key=settings.OPENROUTER_API_KEY,
-            base_url=settings.OPENROUTER_BASE_URL
-        )
-        self.model = model or settings.OPENROUTER_MODEL
-=======
             api_key=settings.openrouter_api_key,
             base_url=settings.openrouter_base_url
         )
         self.model = model or settings.openrouter_model
->>>>>>> feature/environment-validation
 
     # embed texts using batching
     def embed_texts(self, texts: List[str], batch_size: int = 20) -> List[List[float]]:
